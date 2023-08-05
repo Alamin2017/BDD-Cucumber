@@ -1,5 +1,4 @@
 package StepDefinitions;
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -8,9 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-
 import java.util.Random;
-
 import static StepDefinitions.Hooks.driver;
 
 public class RegistrationStepdefs {
@@ -44,8 +41,13 @@ public class RegistrationStepdefs {
         driver.findElement(By.xpath("//input[@id='LastName']")).sendKeys("Amin");
         Thread.sleep(2000);
     }
-    @And("User set <dob> as date of birth")
-    public void userSetDobAsDateOfBirth() throws InterruptedException {
+    @And("^User set (.*) as date of birth$")
+    public void userSetDobAsDateOfBirth(String DOB) throws InterruptedException {
+        String date = DOB;
+        String[] dateParts = date.split("/");
+        String day1 = dateParts[0];
+        String month1 = dateParts[1];
+        String year1=dateParts[2];
         WebElement day=driver.findElement(By.xpath("//select[@name='DateOfBirthDay']"));
         Thread.sleep(1000);
         WebElement month=driver.findElement(By.xpath("//select[@name='DateOfBirthMonth']"));
@@ -55,17 +57,17 @@ public class RegistrationStepdefs {
 
         day.click();
         Select se=new Select(day);
-        se.selectByVisibleText("20");
+        se.selectByVisibleText(day1);
         Thread.sleep(1000);
 
         month.click();
         Select se1=new Select(month);
-        se1.selectByVisibleText("May");
+        se1.selectByIndex(Integer.parseInt(month1));
         Thread.sleep(1000);
 
         year.click();
         Select se2=new Select(year);
-        se2.selectByVisibleText("1995");
+        se2.selectByVisibleText(year1);
         Thread.sleep(1000);
     }
     @And("User set <dynamicEmail> as email")
